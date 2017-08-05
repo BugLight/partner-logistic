@@ -1,6 +1,7 @@
 <template>
   <div id='app'>
-      <AppHeader></AppHeader>
+      <AppHeader :active.sync='activeSection'></AppHeader>
+      <main class='container-fluid'></main>
   </div>
 </template>
 
@@ -9,6 +10,11 @@ import AppHeader from './components/AppHeader.vue';
 
 export default {
   name: 'app',
+  data() {
+      return {
+          activeSection: window.location.hash.slice(1)
+      };
+  },
   components: {
       AppHeader
   }
