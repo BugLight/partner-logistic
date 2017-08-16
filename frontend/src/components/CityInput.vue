@@ -69,6 +69,7 @@ li:hover {
 
 .autocomplete {
     position: absolute;
+    text-align: left;
     padding: 0;
     margin: 0;
     background-color: #fff;
