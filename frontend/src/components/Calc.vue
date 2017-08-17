@@ -6,10 +6,16 @@
         </div>
         <CityInput placeholder='Куда' v-model='to'></CityInput>
         <div class='form-group'>
-            <input v-model='weight' type='number' class='form-control' placeholder='Вес груза, т'>
+            <div class='input-group'>
+                <input v-model='weight' type='number' class='form-control' placeholder='Вес груза'>
+                <div class='input-group-addon'>кг</div>
+            </div>
         </div>
         <div class='form-group'>
-            <input v-model='volume' type='number' class='form-control' placeholder='Объем груза, куб. м'>
+            <div class='input-group'>
+                <input v-model='volume' type='number' class='form-control' placeholder='Объем груза'>
+                <div class='input-group-addon'>м<sup>3</sup></div>
+            </div>
         </div>
         <button @click.prevent='countCost' class='btn btn-submit'>
             Рассчитать
