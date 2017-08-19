@@ -1,25 +1,36 @@
 <template>
-    <form class='form col-md-4 col-md-offset-4'>
-        <CityInput placeholder='Откуда' v-model='from'></CityInput>
-        <div class='form-group calc-icon'>
-            <span class='glyphicon glyphicon-sort'></span>
+    <div class='col-md-4 col-md-offset-4'>
+        <div class='alert alert-danger' v-if='error'>
+            {{error}}
         </div>
-        <CityInput placeholder='Куда' v-model='to'></CityInput>
-        <div class='form-group'>
-            <input v-model='weight' type='number' class='form-control' placeholder='Вес груза, т'>
-        </div>
-        <div class='form-group'>
-            <input v-model='volume' type='number' class='form-control' placeholder='Объем груза, куб. м'>
-        </div>
-        <button @click.prevent='countCost' class='btn btn-submit'>
-            Рассчитать
-        </button>
-        <div class='form-group'>
-            <label v-if='cost'>
-                Стоимость доставки: {{cost}} руб.
-            </label>
-        </div>
-    </form>
+        <form class='form'>
+            <CityInput placeholder='Откуда' v-model='from'></CityInput>
+            <div class='form-group calc-icon'>
+                <span class='glyphicon glyphicon-sort'></span>
+            </div>
+            <CityInput placeholder='Куда' v-model='to'></CityInput>
+            <div class='form-group'>
+                <div class='input-group'>
+                    <input v-model='weight' type='number' class='form-control' placeholder='Вес груза'>
+                    <div class='input-group-addon'>кг</div>
+                </div>
+            </div>
+            <div class='form-group'>
+                <div class='input-group'>
+                    <input v-model='volume' type='number' class='form-control' placeholder='Объем груза'>
+                    <div class='input-group-addon'>м<sup>3</sup></div>
+                </div>
+            </div>
+            <button @click.prevent='countCost' class='btn btn-submit'>
+                Рассчитать
+            </button>
+            <div class='form-group'>
+                <label v-if='cost'>
+                    Стоимость доставки: {{cost}} руб.
+                </label>
+            </div>
+        </form>
+    </div>
 </template>
 
 <script>
@@ -32,29 +43,66 @@ export default {
             to: '',
             weight: '',
             volume: '',
-            cost: 0
+            cost: 0,
+            error: ''
         };
     },
     methods: {
         countCost() {
-            let weight = parseFloat(this.weight.match(/^\d*.?\d*$/));
-            let volume = parseFloat(this.volume.match(/^\d*.?\d*$/));
+            this.cost = 0;
+            this.error = '';
+            let weight = parseInt(this.weight.match(/^\d*$/));
+            let volume = parseInt(this.volume.match(/^\d*$/));
             if (weight && volume) {
-                let tax;
-                if (weight < 1.5 && volume < 10) {
-                    tax = 15;
-                } else if (weight < 3 && volume < 20) {
-                    tax = 22;
-                } else if (weight < 5 && volume < 40) {
-                    tax = 30;
-                }
+                let tax, fulledVehiclesAmount, weightResidue, volumeResidue;
+                const taxes = [
+                    {
+                        weight: 1500,
+                        volume: 10,
+                        price: 15
+                    },
+                    {
+                        weight: 3000,
+                        volume: 20,
+                        price: 22
+                    },
+                    {
+                        weight: 5000,
+                        volume: 40,
+                        price: 30
+                    }
+                ]
+                const {
+                    weight: maxWeight,
+                    volume: maxVolume,
+                    price: maxPrice
+                } = taxes[2];
 
-                if (tax) {
-                    ymaps.route([this.from, this.to]).then(route => {
-                        let length = route.getLength();
-                        this.cost = Math.round(length*tax*0.001);
-                    });
+                if (weight/volume > maxWeight/maxVolume) {
+                    fulledVehiclesAmount = Math.floor(weight/maxWeight);
+                    weightResidue = weight%maxWeight;
+                    volumeResidue = weightResidue/weight*volume;
+                } else {
+                    fulledVehiclesAmount = Math.floor(volume/maxVolume);
+                    volumeResidue = volume%maxVolume;
+                    weightResidue = volumeResidue/volume*weight;
                 }
+                tax = fulledVehiclesAmount*maxPrice;
+                for (let t of taxes) {
+                    if (weightResidue < t.weight && volumeResidue < t.volume) {
+                        tax += t.price;
+                        break;
+                    }
+                }
+                ymaps.route([this.from, this.to]).then(route => {
+                    let length = route.getLength();
+                    this.cost = Math.round(length*tax*0.001);
+                }).catch(error => {
+                    this.error = 'Ошибка построения маршрута! Проверьте правильность введеных пунктов.';
+                });
+            }
+            else {
+                this.error = 'Введены некорректный вес или объем груза!';
             }
         }
     },
