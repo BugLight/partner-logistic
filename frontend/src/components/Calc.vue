@@ -1,31 +1,36 @@
 <template>
-    <form class='form col-md-4 col-md-offset-4'>
-        <CityInput placeholder='Откуда' v-model='from'></CityInput>
-        <div class='form-group calc-icon'>
-            <span class='glyphicon glyphicon-sort'></span>
+    <div class='col-md-4 col-md-offset-4'>
+        <div class='alert alert-danger' v-if='error'>
+            {{error}}
         </div>
-        <CityInput placeholder='Куда' v-model='to'></CityInput>
-        <div class='form-group'>
-            <div class='input-group'>
-                <input v-model='weight' type='number' class='form-control' placeholder='Вес груза'>
-                <div class='input-group-addon'>кг</div>
+        <form class='form'>
+            <CityInput placeholder='Откуда' v-model='from'></CityInput>
+            <div class='form-group calc-icon'>
+                <span class='glyphicon glyphicon-sort'></span>
             </div>
-        </div>
-        <div class='form-group'>
-            <div class='input-group'>
-                <input v-model='volume' type='number' class='form-control' placeholder='Объем груза'>
-                <div class='input-group-addon'>м<sup>3</sup></div>
+            <CityInput placeholder='Куда' v-model='to'></CityInput>
+            <div class='form-group'>
+                <div class='input-group'>
+                    <input v-model='weight' type='number' class='form-control' placeholder='Вес груза'>
+                    <div class='input-group-addon'>кг</div>
+                </div>
             </div>
-        </div>
-        <button @click.prevent='countCost' class='btn btn-submit'>
-            Рассчитать
-        </button>
-        <div class='form-group'>
-            <label v-if='cost'>
-                Стоимость доставки: {{cost}} руб.
-            </label>
-        </div>
-    </form>
+            <div class='form-group'>
+                <div class='input-group'>
+                    <input v-model='volume' type='number' class='form-control' placeholder='Объем груза'>
+                    <div class='input-group-addon'>м<sup>3</sup></div>
+                </div>
+            </div>
+            <button @click.prevent='countCost' class='btn btn-submit'>
+                Рассчитать
+            </button>
+            <div class='form-group'>
+                <label v-if='cost'>
+                    Стоимость доставки: {{cost}} руб.
+                </label>
+            </div>
+        </form>
+    </div>
 </template>
 
 <script>
@@ -38,11 +43,14 @@ export default {
             to: '',
             weight: '',
             volume: '',
-            cost: 0
+            cost: 0,
+            error: ''
         };
     },
     methods: {
         countCost() {
+            this.cost = 0;
+            this.error = '';
             let weight = parseInt(this.weight.match(/^\d*$/));
             let volume = parseInt(this.volume.match(/^\d*$/));
             if (weight && volume) {
@@ -89,10 +97,12 @@ export default {
                 ymaps.route([this.from, this.to]).then(route => {
                     let length = route.getLength();
                     this.cost = Math.round(length*tax*0.001);
+                }).catch(error => {
+                    this.error = 'Ошибка построения маршрута! Проверьте правильность введеных пунктов.';
                 });
             }
             else {
-                console.error('Incorrect weight or volume');
+                this.error = 'Введены некорректный вес или объем груза!';
             }
         }
     },
