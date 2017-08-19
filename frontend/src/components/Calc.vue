@@ -43,24 +43,56 @@ export default {
     },
     methods: {
         countCost() {
-            let weight = parseFloat(this.weight.match(/^\d*.?\d*$/));
-            let volume = parseFloat(this.volume.match(/^\d*.?\d*$/));
+            let weight = parseInt(this.weight.match(/^\d*$/));
+            let volume = parseInt(this.volume.match(/^\d*$/));
             if (weight && volume) {
-                let tax;
-                if (weight < 1.5 && volume < 10) {
-                    tax = 15;
-                } else if (weight < 3 && volume < 20) {
-                    tax = 22;
-                } else if (weight < 5 && volume < 40) {
-                    tax = 30;
-                }
+                let tax, fulledVehiclesAmount, weightResidue, volumeResidue;
+                const taxes = [
+                    {
+                        weight: 1500,
+                        volume: 10,
+                        price: 15
+                    },
+                    {
+                        weight: 3000,
+                        volume: 20,
+                        price: 22
+                    },
+                    {
+                        weight: 5000,
+                        volume: 40,
+                        price: 30
+                    }
+                ]
+                const {
+                    weight: maxWeight,
+                    volume: maxVolume,
+                    price: maxPrice
+                } = taxes[2];
 
-                if (tax) {
-                    ymaps.route([this.from, this.to]).then(route => {
-                        let length = route.getLength();
-                        this.cost = Math.round(length*tax*0.001);
-                    });
+                if (weight/volume > maxWeight/maxVolume) {
+                    fulledVehiclesAmount = Math.floor(weight/maxWeight);
+                    weightResidue = weight%maxWeight;
+                    volumeResidue = weightResidue/weight*volume;
+                } else {
+                    fulledVehiclesAmount = Math.floor(volume/maxVolume);
+                    volumeResidue = volume%maxVolume;
+                    weightResidue = volumeResidue/volume*weight;
                 }
+                tax = fulledVehiclesAmount*maxPrice;
+                for (let t of taxes) {
+                    if (weightResidue < t.weight && volumeResidue < t.volume) {
+                        tax += t.price;
+                        break;
+                    }
+                }
+                ymaps.route([this.from, this.to]).then(route => {
+                    let length = route.getLength();
+                    this.cost = Math.round(length*tax*0.001);
+                });
+            }
+            else {
+                console.error('Incorrect weight or volume');
             }
         }
     },
