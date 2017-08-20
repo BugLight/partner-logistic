@@ -73,6 +73,7 @@
           </section>
           <section class='container-fluid' id='order'>
               <h2>Оформить заказ</h2>
+              <OrderForm></OrderForm>
           </section>
           <section class='container-fluid' id='contacts'>
               <h2>Контакты</h2>
@@ -87,6 +88,7 @@
 <script>
 import AppHeader from './components/AppHeader.vue';
 import Calc from './components/Calc.vue';
+import OrderForm from './components/OrderForm.vue';
 
 export default {
   name: 'app',
@@ -97,7 +99,8 @@ export default {
   },
   components: {
       AppHeader,
-      Calc
+      Calc,
+      OrderForm
   }
 };
 </script>
