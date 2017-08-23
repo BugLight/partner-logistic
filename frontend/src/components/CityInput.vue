@@ -1,9 +1,12 @@
 <template>
     <div class='autocomplete-wrapper'>
+        <a v-if='query' @click='clear' class='clear-field'>
+            <i class='glyphicon glyphicon-remove'></i>
+        </a>
         <input
         @focus='toggleFocus(true)'
         @blur='toggleFocus(false)'
-        @keyup='autoComplete'
+        @keyup='edit'
         class='form-control'
         type='text'
         :placeholder='placeholder'
@@ -26,6 +29,7 @@ export default {
     data() {
         return {
             focused: false,
+            selected: false,
             vars: [],
             query: ''
         };
@@ -40,11 +44,24 @@ export default {
                 this.vars = results.response.items;
             });
         },
+        clear() {
+            this.updateValue('');
+        },
+        edit() {
+            this.selected = false;
+            this.autoComplete();
+        },
         updateValue(val) {
             this.query = val;
             this.$emit('input', val);
+            this.selected = true;
         },
         toggleFocus(state) {
+            if (state)
+                this.autoComplete();
+            else if (!this.selected) {
+                this.updateValue(this.vars[0].title);
+            }
             this.focused = state;
         }
     },
@@ -69,7 +86,6 @@ li:hover {
 
 .autocomplete {
     position: absolute;
-    text-align: left;
     padding: 0;
     margin: 0;
     background-color: #fff;
@@ -80,5 +96,17 @@ li:hover {
 
 .autocomplete-wrapper {
     vertical-align: top !important;
+    text-align: left;
+    position: relative;
+}
+
+.clear-field {
+    position: absolute;
+    color: #333;
+    cursor: pointer;
+    left: 95%;
+    top: 7px;
+    width: 0;
+    height: 0;
 }
 </style>
