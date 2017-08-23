@@ -1,5 +1,5 @@
 <template>
-    <div class='form-group autocomplete-wrapper'>
+    <div class='autocomplete-wrapper'>
         <input
         @focus='toggleFocus(true)'
         @blur='toggleFocus(false)'

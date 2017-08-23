@@ -4,11 +4,15 @@
             {{error}}
         </div>
         <form class='form'>
-            <CityInput placeholder='Откуда' v-model='from'></CityInput>
+            <div class='form-group'>
+                <CityInput placeholder='Откуда' v-model='from'></CityInput>
+            </div>
             <div class='form-group calc-icon'>
                 <span class='glyphicon glyphicon-sort'></span>
             </div>
-            <CityInput placeholder='Куда' v-model='to'></CityInput>
+            <div class='form-group'>
+                <CityInput placeholder='Куда' v-model='to'></CityInput>
+            </div>
             <div class='form-group'>
                 <div class='input-group'>
                     <input v-model='weight' type='number' class='form-control' placeholder='Вес груза'>
