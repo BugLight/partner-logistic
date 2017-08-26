@@ -1,6 +1,6 @@
 <template>
     <div class='autocomplete-wrapper'>
-        <a v-if='query' @click='clear' class='clear-field'>
+        <a v-if='value' @click='clear' class='clear-field'>
             <i class='glyphicon glyphicon-remove'></i>
         </a>
         <input
@@ -10,7 +10,7 @@
         class='form-control'
         type='text'
         :placeholder='placeholder'
-        v-model='query'>
+        v-model='value'>
         <ul v-if='focused && vars.length' class='autocomplete'>
             <li v-for='v in vars'>
                 <a @mousedown='updateValue(v.title)'>{{v.title}}</a>
@@ -30,15 +30,14 @@ export default {
         return {
             focused: false,
             selected: false,
-            vars: [],
-            query: ''
+            vars: []
         };
     },
     methods: {
         autoComplete() {
             vk_api.call('database.getCities', {
                 country_id: 1,
-                q: this.query,
+                q: this.value,
                 count: 10
             }).then(results => {
                 this.vars = results.response.items;
@@ -52,7 +51,6 @@ export default {
             this.autoComplete();
         },
         updateValue(val) {
-            this.query = val;
             this.$emit('input', val);
             this.selected = true;
         },
