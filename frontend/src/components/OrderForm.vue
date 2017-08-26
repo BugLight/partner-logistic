@@ -1,7 +1,7 @@
 <template>
     <div class='col-md-6 col-md-offset-3'>
-        <div class='alert alert-danger' v-if='errors.length > 0'>
-            Проверьте правильность введенных полей и заполните обязательные поля!
+        <div class='alert alert-danger' v-if='errorMessage'>
+            {{errorMessage}}
         </div>
         <form class='form-horizontal'>
             <div class='form-group'
@@ -109,7 +109,8 @@ export default {
                 cargoVolume: '',
                 loadDate: ''
             },
-            errors: []
+            errors: [],
+            errorMessage: ''
         };
     },
     methods: {
@@ -118,6 +119,7 @@ export default {
         },
         clearForm() {
             this.errors = [];
+            this.errorMessage = '';
             Object.keys(this.form).forEach(key => {
                 this.form[key] = '';
             });
@@ -132,9 +134,10 @@ export default {
                     this.clearForm();
                 } else if (response.code == 400) {
                     this.errors = response.errors;
+                    this.errorMessage = 'Проверьте правильность введенных полей и заполните обязательные поля!';
                 }
             }).catch(error => {
-
+                this.errorMessage = 'Ошибка отправки! Проверьте интернет соединение.';
             });
         }
     },
