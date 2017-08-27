@@ -83,7 +83,7 @@
             <div class='form-group'>
                 <div class='col-md-8 col-md-offset-4'>
                     <button @click.prevent='submitOrder' type='submit' class='btn btn-primary'>
-                        Сделать заказ
+                        Оформить заказ
                     </button>
                 </div>
             </div>

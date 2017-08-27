@@ -72,11 +72,27 @@
               <Calc></Calc>
           </section>
           <section class='container-fluid' id='order'>
-              <h2>Оформить заказ</h2>
+              <h2>Оформление заказа</h2>
               <OrderForm></OrderForm>
           </section>
           <section class='container-fluid' id='contacts'>
               <h2>Контакты</h2>
+              <div class='col-md-8 col-md-offset-2'>
+                  <div class='row'>
+                      <div class='col-md-4'>
+                          <span class='glyphicon glyphicon-envelope'></span>
+                          <a>nebuzhu@mail.ru</a>
+                      </div>
+                      <div class='col-md-4'>
+                          <span class='glyphicon glyphicon-earphone'></span>
+                          +7(909)980-3070
+                      </div>
+                      <div class='col-md-4'>
+                          <span class='glyphicon glyphicon-earphone'></span>
+                          +7(909)990-3070
+                      </div>
+                  </div>
+              </div>
           </section>
       </main>
       <footer>
@@ -125,6 +141,10 @@ body {
 
 h1, h2, h3 {
     margin-bottom: 20px;
+}
+
+footer {
+    background-color: #333;
 }
 
 section {
