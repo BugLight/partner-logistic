@@ -98,6 +98,11 @@
               <div class='col-md-3'>
                   <p>&copy; ООО "Партнер Логистик" 2017</p>
                   <p>125475 г. Москва, Дыбенко ул., д. 22, корп. 1.</p>
+                  <p><a href='/static/docs/ИНН_ПЛ.jpg'>ИНН</a></p>
+                  <p><a href='/static/docs/ОГРН_ПЛ.jpg'>ОГРН</a></p>
+                  <p><a href='/static/docs/Сбер.jpg'>Счет Сбербанк</a></p>
+                  <p><a href='/static/docs/ПФР.jpg'>Уведомление ПФР</a></p>
+                  <p><a href='/static/docs/Коды.jpg'>Коды статистики</a></p>
               </div>
               <div class='col-md-3'>
                   <p>Расчетный счет 407 028 101 380 000 039 47</p>
