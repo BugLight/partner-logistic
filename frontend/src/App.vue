@@ -95,7 +95,34 @@
       </section>
       <footer>
           <div class='row'>
-              
+              <div class='col-md-3'>
+                  <p>&copy; ООО "Партнер Логистик" 2017</p>
+                  <p>125475 г. Москва, Дыбенко ул., д. 22, корп. 1.</p>
+              </div>
+              <div class='col-md-3'>
+                  <p>Расчетный счет 407 028 101 380 000 039 47</p>
+                  <p>Кор. счет 301 018 104 000 000 002 25</p>
+                  <p>БИК 044525225</p>
+                  <p>ИНН / КПП 7743934807 / 774301001</p>
+                  <p>ОГРН 1147746879191</p>
+                  <p>ОКПО 00032537</p>
+              </div>
+              <div class='col-md-3'>
+                  <p>Дата выдачи свидетельства: ЕГРЮЛ 05.08.2014</p>
+                  <p>Регистрирующий орган, выдавший свидетельство ЕГРЮЛ: Межрайонная инспекция Федеральной налоговой службы №46 по г.Москве</p>
+                  <p>Генеральный директор: Непрынцева Ирина Анатольевна</p>
+              </div>
+              <div class='col-md-3'>
+                  <p>Разработано &copy;<a href='http://github.com/BugLight'>Buglight</a></p>
+                  <div>
+                      Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a>,
+                      <a href="https://www.flaticon.com/authors/gregor-cresnar" title="Gregor Cresnar">Gregor Cresnar</a>,
+                      <a href="https://www.flaticon.com/authors/epiccoders" title="EpicCoders">EpicCoders</a>,
+                      <a href="https://www.flaticon.com/authors/rami-mcmin" title="Rami McMin">Rami McMin</a>
+                      from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by
+                      <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a>
+                  </div>
+              </div>
           </div>
       </footer>
   </div>
@@ -145,7 +172,9 @@ h1, h2, h3 {
 
 footer {
     background-color: #333;
-    padding: 30px;
+    padding: 40px;
+    color: #fff;
+    font-size: 0.9em;
 }
 
 section {
