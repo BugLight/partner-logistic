@@ -2,11 +2,17 @@
   <div id='app'>
       <AppHeader :active.sync='activeSection'></AppHeader>
       <section class='container-fluid top-section'>
-          <div class='col-md-4 top-section__content'>
+          <div class='col-md-5 top-section__content'>
               <p>
                   ООО Партнер Логистик занимается автоперевозками грузов по России.
                   Мы располагаем собственным транспортом различной грузоподъемности.
               </p>
+              <form class='top-section__action'>
+                  <a href='#order' class='btn btn-primary'>
+                      <span class='glyphicon glyphicon-triangle-bottom'></span>
+                      Оформить заказ
+                  </a>
+              </form>
           </div>
       </section>
       <section class='container-fluid'>
@@ -32,7 +38,7 @@
               </div>
           </div>
       </section>
-      <section class='container-fluid'>
+      <section class='container-fluid inverse-section'>
           <h2>Преимущества работы с нами</h2>
           <div class='col-md-8 col-md-offset-2'>
               <div class='row'>
@@ -65,6 +71,9 @@
                   </div>
               </div>
           </div>
+      </section>
+      <section class='container-fluid bg-section'>
+          <img class='bg-section__image' src='./assets/bg2.jpg'>
       </section>
       <section class='container-fluid' id='calculator'>
           <h2>Рассчитать стоимость</h2>
@@ -137,19 +146,27 @@
 import AppHeader from './components/AppHeader.vue';
 import Calc from './components/Calc.vue';
 import OrderForm from './components/OrderForm.vue';
+import 'jquery';
 
 export default {
-  name: 'app',
-  data() {
-      return {
-          activeSection: window.location.hash.slice(1)
-      };
-  },
-  components: {
-      AppHeader,
-      Calc,
-      OrderForm
-  }
+    name: 'app',
+    data() {
+        return {
+            activeSection: window.location.hash.slice(1)
+        };
+    },
+    created() {
+        // Setting up parallax effects
+        $(window).scroll(() => {
+            let scroll = Math.round($(window).scrollTop()*0.2 - 300);
+            $('.bg-section__image').css('transform', `translateY(${scroll}px)`);
+        });
+    },
+    components: {
+        AppHeader,
+        Calc,
+        OrderForm
+    }
 };
 </script>
 
@@ -195,7 +212,7 @@ section {
     justify-content: flex-end;
     align-items: center;
     text-align: left;
-    min-height: 50%;
+    min-height: 300px;
 }
 
 .top-section__content {
@@ -203,6 +220,29 @@ section {
     font-size: 1.3em;
     color: #fff;
     text-shadow: #000 1px 1px 3px;
+}
+
+.top-section__action {
+    text-align: center;
+    text-shadow: none;
+}
+
+.inverse-section {
+    background-color: #333;
+    color: #fff;
+}
+
+.bg-section {
+    position: relative;
+    overflow: hidden;
+    height: 280px;
+    padding: 0;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.bg-section__image {
+    transition: all 0.1s ease 0;
+    z-index: -1;
 }
 
 .icon {
