@@ -15,10 +15,6 @@
                     <span class='glyphicon glyphicon-earphone'></span>
                     +7(909)980-3070
                 </p>
-                <p class='navbar-text'>
-                    <span class='glyphicon glyphicon-earphone'></span>
-                    +7(909)990-3070
-                </p>
                 <div class='collapse navbar-collapse' id='navbar-collapse'>
                     <ul class='nav navbar-nav navbar-right'>
                         <NavLink
@@ -53,11 +49,6 @@ export default {
                     name: 'contacts',
                     text: 'Контакты',
                     url: '#contacts'
-                },
-                {
-                    name: 'order',
-                    text: 'Сделать заказ',
-                    url: '#order'
                 },
             ]
         };
