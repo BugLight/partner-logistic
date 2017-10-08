@@ -235,9 +235,15 @@ section {
 .bg-section {
     position: relative;
     overflow: hidden;
-    height: 280px;
+    height: 250px;
     padding: 0;
     background-color: rgba(0, 0, 0, 0);
+}
+
+@media (max-width: 900px) {
+    .bg-section {
+        height: 180px;
+    }
 }
 
 .bg-section__image {
