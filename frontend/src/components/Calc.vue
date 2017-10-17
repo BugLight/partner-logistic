@@ -100,7 +100,7 @@ export default {
                 }
                 ymaps.route([this.from, this.to]).then(route => {
                     let length = route.getLength();
-                    this.cost = Math.round(length*tax*0.001);
+                    this.cost = Math.round(length*2*tax*0.001);
                 }).catch(error => {
                     this.error = 'Ошибка построения маршрута! Проверьте правильность введеных пунктов.';
                 });
