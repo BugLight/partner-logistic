@@ -8,6 +8,8 @@ require_once 'forms.php';
 use Forms\Field;
 use Forms\Form;
 
+mb_internal_encoding('utf-8');
+
 $fields = [
     new Field('companyName'),
     new Field('loadCity', true),
@@ -48,10 +50,33 @@ switch ($_SERVER['REQUEST_METHOD']) {
             ]);
         }
         else {
-            echo json_encode([
-                'code' => 200,
-                'message' => 'OK'
-            ]);
+            $mail = new PHPMailer(true);
+            try {
+                $mail->isSMTP();
+                $mail->Host = $_ENV['SMTP_HOST'];
+                $mail->SMTPAuth = true;
+                $mail->Username = $_ENV['SMTP_USER'];
+                $mail->Password = $_ENV['SMTP_PASSWORD'];
+                $mail->SMTPSecure = 'tls';
+                $mail->Port = $_ENV['SMTP_PORT'];
+                $mail->setFrom('noreply@partner-logistic.com');
+                $mail->addAddress($_ENV['MAILBOX']);
+                $mail->isHTML(true);
+                $mail->CharSet = 'utf-8';
+                $mail->Subject = 'Заказ на перевозку';
+                $mail->Body = $form->datahtml();
+                $mail->send();
+                echo json_encode([
+                    'code' => 200,
+                    'message' => 'OK'
+                ]);
+            }
+            catch (Exception $e) {
+                echo json_encode([
+                    'code' => 500,
+                    'message' => 'Failed to send mail.'
+                ]);
+            }
         }
         break;
 

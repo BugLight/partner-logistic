@@ -51,5 +51,16 @@ class Form {
         }
         return $errors;
     }
+
+    function datahtml() {
+        $html = '<table cellpadding=3>';
+        foreach ($this->fields as $field) {
+            $name = $field->name;
+            $html .= '<tr><td>' . $name . '</td>';
+            $html .= '<td>' . $this->data[$name] . '</td></tr>';
+        }
+        $html .= '</table>';
+        return $html;
+    }
 }
 ?>
