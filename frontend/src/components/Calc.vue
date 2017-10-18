@@ -52,6 +52,11 @@ export default {
         };
     },
     methods: {
+        percentageAvailable(from, to) {
+            const available = ['Брянск', 'Москва'];
+
+            return available.indexOf(to) > -1 && available.indexOf(from) > -1 && from != to;
+        },
         countCost() {
             this.cost = 0;
             this.error = '';
@@ -94,7 +99,11 @@ export default {
                 tax = fulledVehiclesAmount*maxPrice;
                 for (let t of taxes) {
                     if (weightResidue < t.weight && volumeResidue < t.volume) {
-                        tax += t.price;
+                        if (this.percentageAvailable(this.from, this.to)) {
+                            tax += t.price*(weight/t.weight>volume/t.volume?weight/t.weight:volume/t.volume);
+                        } else {
+                            tax += t.price;
+                        }
                         break;
                     }
                 }
