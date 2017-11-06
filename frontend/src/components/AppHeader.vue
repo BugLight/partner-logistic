@@ -9,7 +9,7 @@
                         <span class='icon-bar'></span>
                         <span class='icon-bar'></span>
                     </button>
-                    <a @click='makeActive()' class='navbar-brand' href='#'>Партнер Логистик</a>
+                    <NavLink class='navbar-brand' href='html'>Партнер Логистик</NavLink>
                 </div>
                 <p class='navbar-text'>
                     <span class='glyphicon glyphicon-earphone'></span>
@@ -17,14 +17,11 @@
                 </p>
                 <div class='collapse navbar-collapse' id='navbar-collapse'>
                     <ul class='nav navbar-nav navbar-right'>
-                        <NavLink
-                        v-for='link in links'
-                        @click.native='makeActive(link.name)'
-                        :href='link.url'
-                        :active='link.name == active'
-                        :key='link.name'>
-                            {{link.text}}
-                        </NavLink>
+                        <li v-for='link in links'>
+                            <NavLink :href='link.url'>
+                                {{link.text}}
+                            </NavLink>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -52,11 +49,6 @@ export default {
                 },
             ]
         };
-    },
-    methods: {
-        makeActive(link_name) {
-            this.$emit('update:active', link_name || '');
-        }
     },
     components: {
         NavLink
