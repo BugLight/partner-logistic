@@ -8,10 +8,10 @@
                   Мы располагаем собственным транспортом различной грузоподъемности.
               </p>
               <form class='top-section__action'>
-                  <a href='#order' class='btn btn-primary'>
+                  <NavLink href='#order' class='btn btn-primary'>
                       <span class='glyphicon glyphicon-triangle-bottom'></span>
                       Оформить заказ
-                  </a>
+                  </NavLink>
               </form>
           </div>
       </section>
@@ -146,6 +146,7 @@
 import AppHeader from './components/AppHeader.vue';
 import Calc from './components/Calc.vue';
 import OrderForm from './components/OrderForm.vue';
+import NavLink from './components/NavLink.vue';
 import 'jquery';
 
 export default {
@@ -165,7 +166,8 @@ export default {
     components: {
         AppHeader,
         Calc,
-        OrderForm
+        OrderForm,
+        NavLink
     }
 };
 </script>
@@ -185,7 +187,7 @@ body {
 
     font-family: 'Lato', sans-serif;
 
-    padding-top: 70px;
+    padding-top: 50px;
 }
 
 h1, h2, h3 {
