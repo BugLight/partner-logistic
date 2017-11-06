@@ -1,6 +1,6 @@
 <template>
   <div id='app'>
-      <AppHeader :active.sync='activeSection'></AppHeader>
+      <AppHeader></AppHeader>
       <section class='container-fluid top-section'>
           <div class='col-md-5 top-section__content'>
               <p>
@@ -151,11 +151,6 @@ import 'jquery';
 
 export default {
     name: 'app',
-    data() {
-        return {
-            activeSection: window.location.hash.slice(1)
-        };
-    },
     created() {
         // Setting up parallax effects
         $(window).scroll(() => {
@@ -173,7 +168,7 @@ export default {
 </script>
 
 <style>
-@import "http://fonts.fontstorage.com/import/lato.css";
+@import "https://fonts.fontstorage.com/import/lato.css";
 
 html, body, #app {
     height: 100%;

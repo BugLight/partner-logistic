@@ -1,5 +1,5 @@
 <template>
-    <header>
+    <header role='banner'>
         <nav class='navbar navbar-default navbar-fixed-top' role='navigation'>
             <div class='container-fluid'>
                 <div class='navbar-header'>
@@ -33,7 +33,6 @@
 import NavLink from './NavLink.vue';
 
 export default {
-    props: ['active'],
     data() {
         return {
             links: [
