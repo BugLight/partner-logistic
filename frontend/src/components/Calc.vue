@@ -21,8 +21,29 @@
             </div>
             <div class='form-group'>
                 <div class='input-group'>
-                    <input v-model='volume' type='number' class='form-control' placeholder='Объем груза'>
+                    <input v-model='volume' type='number' class='form-control' placeholder='Объем груза' :disabled='!!width||!!height||!!length'>
                     <div class='input-group-addon'>м<sup>3</sup></div>
+                </div>
+            </div>
+            <h4>Габариты груза:</h4>
+            <div class='form-group row'>
+                <div class='col-md-4'>
+                    <div class='input-group'>
+                        <input v-model='width' type='number' class='form-control' placeholder='Ш' :disabled='!!volume'>
+                        <div class='input-group-addon'>м</div>
+                    </div>
+                </div>
+                <div class='col-md-4'>
+                    <div class='input-group'>
+                        <input v-model='height' type='number' class='form-control' placeholder='В' :disabled='!!volume'>
+                        <div class='input-group-addon'>м</div>
+                    </div>
+                </div>
+                <div class='col-md-4'>
+                    <div class='input-group'>
+                        <input v-model='length' type='number' class='form-control' placeholder='Д' :disabled='!!volume'>
+                        <div class='input-group-addon'>м</div>
+                    </div>
                 </div>
             </div>
             <button @click.prevent='countCost' class='btn btn-submit'>
@@ -34,6 +55,10 @@
                 </label>
             </div>
         </form>
+        <p>
+            * Калькулятор вычисляет примерную стоимость доставки. Точная сумма определяется
+            при оформлении заказа.
+        </p>
     </div>
 </template>
 
@@ -47,6 +72,9 @@ export default {
             to: '',
             weight: '',
             volume: '',
+            width: '',
+            height: '',
+            length: '',
             cost: 0,
             error: ''
         };
@@ -62,6 +90,13 @@ export default {
             this.error = '';
             let weight = parseInt(this.weight.match(/^\d*$/));
             let volume = parseInt(this.volume.match(/^\d*$/));
+            let height = parseInt(this.height.match(/^\d*$/));
+            let width = parseInt(this.width.match(/^\d*$/));
+            let length = parseInt(this.length.match(/^\d*$/));
+
+            if (!volume && height && width && length) {
+                volume = height * width * length;
+            }
             if (weight && volume) {
                 let tax, fulledVehiclesAmount, weightResidue, volumeResidue;
                 const taxes = [
@@ -98,7 +133,7 @@ export default {
                 }
                 tax = fulledVehiclesAmount*maxPrice;
                 for (let t of taxes) {
-                    if (weightResidue < t.weight && volumeResidue < t.volume) {
+                    if (weightResidue <= t.weight && volumeResidue <= t.volume) {
                         if (this.percentageAvailable(this.from, this.to)) {
                             tax += t.price*(weight/t.weight>volume/t.volume?weight/t.weight:volume/t.volume);
                         } else {
@@ -131,5 +166,9 @@ export default {
 }
 .glyphicon {
     vertical-align: middle;
+}
+
+h4 {
+    text-align: left;
 }
 </style>
