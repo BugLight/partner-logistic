@@ -21,12 +21,19 @@
             </div>
             <div class='form-group'>
                 <div class='input-group'>
-                    <input v-model='volume' type='number' class='form-control' placeholder='Объем груза' :disabled='!!width||!!height||!!length'>
+                    <input v-if='!width&&!height&&!length' v-model='volume' type='number' class='form-control' placeholder='Объем груза'>
+                    <input v-else disabled :value='parseInt(width)*parseInt(height)*parseInt(length)' type='number' class='form-control' placeholder='Объем груза'>
                     <div class='input-group-addon'>м<sup>3</sup></div>
                 </div>
             </div>
             <h4>Габариты груза:</h4>
             <div class='form-group row'>
+                <div class='col-md-4'>
+                    <div class='input-group'>
+                        <input v-model='length' type='number' class='form-control' placeholder='Д' :disabled='!!volume'>
+                        <div class='input-group-addon'>м</div>
+                    </div>
+                </div>
                 <div class='col-md-4'>
                     <div class='input-group'>
                         <input v-model='width' type='number' class='form-control' placeholder='Ш' :disabled='!!volume'>
@@ -36,12 +43,6 @@
                 <div class='col-md-4'>
                     <div class='input-group'>
                         <input v-model='height' type='number' class='form-control' placeholder='В' :disabled='!!volume'>
-                        <div class='input-group-addon'>м</div>
-                    </div>
-                </div>
-                <div class='col-md-4'>
-                    <div class='input-group'>
-                        <input v-model='length' type='number' class='form-control' placeholder='Д' :disabled='!!volume'>
                         <div class='input-group-addon'>м</div>
                     </div>
                 </div>
